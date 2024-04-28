@@ -86,28 +86,4 @@ return {
     "RRethy/vim-illuminate",
     event = "BufEnter",
   },
-
-  {
-    "kdheepak/lazygit.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim"
-    },
-    keys = {
-      { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit"}
-    }
-  },
-
-  {
-    "nvim-tree/nvim-tree.lua",
-    config = function()
-      require("nvim-tree").setup()
-    end,
-    keys = {
-      { "<leader>tt", "<cmd>NvimTreeToggle<cr>", desc = "Open/Close tree"},
-      { "<leader>tf", "<cmd>NvimTreeFocus<cr>", desc = "Open and focus on tree"}
-    }
-  }
-
-
-
 }
