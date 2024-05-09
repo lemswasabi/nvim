@@ -2,7 +2,9 @@ return {
   -- indent guides for Neovim
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = "VeryLazy",
+    -- event = "VeryLazy",
+    event = "BufEnter",
+    -- lazy = true,
     opts = {
       indent = {
         char = "│",
@@ -31,7 +33,7 @@ return {
   {
     "echasnovski/mini.indentscope",
     version = false, -- wait till new 0.7.0 release to put it back on semver
-    event = "VeryLazy",
+    event = "BufEnter",
     opts = {
       symbol = "│",
       options = { try_as_border = true },
@@ -60,7 +62,7 @@ return {
 
   {
     "echasnovski/mini.comment",
-    event = "BufEnter",
+    event = "InsertEnter",
     config = function()
       require("mini.comment").setup()
     end,
@@ -68,7 +70,7 @@ return {
 
   {
     "echasnovski/mini.pairs",
-    event = "BufEnter",
+    event = "InsertEnter",
     config = function()
       require("mini.pairs").setup()
     end,
@@ -76,7 +78,7 @@ return {
 
   {
     "echasnovski/mini.splitjoin",
-    event = "BufEnter",
+    event = "InsertEnter",
     config = function()
       require("mini.splitjoin").setup()
     end,
