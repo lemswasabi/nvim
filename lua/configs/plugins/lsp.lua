@@ -55,14 +55,6 @@ return {
         }
       })
 
-      -- Here is where you configure the autocompletion settings.
-      lsp_zero.extend_cmp()
-      -- And you can configure cmp even more, if you want to.
-      local cmp = require("cmp")
-      cmp.setup({
-        formatting = lsp_zero.cmp_format({details = true}),
-      })
-
     end
   }
 }
