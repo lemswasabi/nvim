@@ -43,6 +43,7 @@ return {
     version = "*",  -- recommended, use latest release instead of latest commit
     lazy = true,
     ft = "markdown",
+    cmd = { "ObsidianWorkspace" },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "hrsh7th/nvim-cmp",
@@ -53,17 +54,21 @@ return {
     opts = {
       workspaces = {
         {
-          name = "personal",
-          path = "~/vaults/personal",
+          name = "symbiotics_docs",
+          path = "~/vaults/work/symbiotics/docs",
+          strict = true,
         },
         {
-          name = "symbiotics",
-          path = "~/vaults/symbiotics",
-        },
-        {
-          name = "work",
-          path = "~/vaults/work",
-        },
+          name = "team_meeting_notes",
+          path = "~/vaults/work/symbiotics/notes/team_meeting_notes",
+          strict = true,
+        }
+      },
+
+      templates = {
+        folder = "templates",
+        date_format = "%d-%m-%Y",
+        time_format = "%H:%M",
       },
 
       -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.

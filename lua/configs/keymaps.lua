@@ -4,3 +4,14 @@ vim.keymap.set("i", "<C-s>", "<C-o><cmd>update<cr>", { desc = "save file in inse
 
 vim.keymap.set("n", "<leader>lz", "<cmd>Lazy<Cr>", { desc = "Lazy" })
 vim.keymap.set("n", "<localleader>cr", "<cmd>!cargo run<Cr>", { desc = "cargo run"})
+
+vim.keymap.set(
+  "n",
+  "<leader>tn",
+  function()
+    vim.cmd("ObsidianWorkspace team_meeting_notes")
+    vim.cmd("ObsidianNew")
+    vim.cmd("ObsidianTemplate team_meeting_notes")
+  end,
+  { desc = "keymap for a new team meeting note" }
+)
