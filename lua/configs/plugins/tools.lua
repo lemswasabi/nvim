@@ -79,6 +79,15 @@ return {
         min_chars = 2,
       },
     },
-  }
+  },
+
+  {
+    "wintermute-cell/gitignore.nvim",
+    -- event = "VeryLazy",
+    cmd = { "Gitignore" },
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    }
+  },
 
 }
