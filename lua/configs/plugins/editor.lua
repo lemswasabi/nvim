@@ -62,7 +62,7 @@ return {
 
   {
     "echasnovski/mini.comment",
-    event = "InsertEnter",
+    event = "BufEnter",
     config = function()
       require("mini.comment").setup()
     end,
