@@ -10,9 +10,24 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-nvim-lsp-signature-help",
     "neovim/nvim-lspconfig",
+    -- LuaSnip for snippet support
+    "L3MON4D3/LuaSnip",
+    "saadparwaiz1/cmp_luasnip",  -- nvim-cmp source for LuaSnip
   },
   config = function()
     local cmp = require("cmp")
+    local luasnip = require("luasnip")
+
+    -- Define the println! snippet
+    -- TODO: make this better
+    luasnip.add_snippets("rust", {
+      luasnip.snippet("println", {
+        luasnip.text_node("println!(\""),
+        luasnip.insert_node(1, ""),
+        luasnip.text_node("\");"),
+        -- luasnip.insert_node(2),  -- Move cursor after the closing parenthesis
+      }),
+    })
 
     cmp.setup({
       window = {
@@ -32,6 +47,7 @@ return {
       sources = cmp.config.sources({
         { name = "nvim_lsp" },
         { name = "nvim_lsp_signature_help" },
+        { name = "luasnip" },  -- Include LuaSnip as a source
       }, {
         { name = "buffer" },
         { name = "path" },
