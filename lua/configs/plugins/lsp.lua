@@ -52,6 +52,37 @@ return {
             local lua_opts = lsp_zero.nvim_lua_ls()
             require("lspconfig").lua_ls.setup(lua_opts)
           end,
+
+          rust_analyzer = function()
+            require("lspconfig").rust_analyzer.setup({
+              settings = {
+                ["rust-analyzer"] = {
+                  cargo = {
+                    allFeatures = true,
+                  },
+                  -- TODO: fix this
+                  checkOnSave = {
+                    command = "clippy",
+                  },
+                  formatting = {
+                    enable = true,
+                  },
+                },
+              },
+              on_attach = function(client, bufnr)
+                lsp_zero.default_keymaps({ buffer = bufnr })
+
+                -- Autoformat on save
+                vim.api.nvim_create_autocmd("BufWritePre", {
+                  buffer = bufnr,
+                  callback = function()
+                    vim.lsp.buf.format({ async = false })
+                  end,
+                })
+              end
+            })
+          end,
+
         }
       })
 

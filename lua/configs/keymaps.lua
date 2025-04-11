@@ -3,7 +3,9 @@ vim.keymap.set("n", "<C-s>", "<cmd>update<cr>", { desc = "save file in normal mo
 vim.keymap.set("i", "<C-s>", "<C-o><cmd>update<cr>", { desc = "save file in insert mode when updated"})
 
 vim.keymap.set("n", "<leader>lz", "<cmd>Lazy<Cr>", { desc = "Lazy" })
-vim.keymap.set("n", "<localleader>cr", "<cmd>!cargo run<Cr>", { desc = "cargo run"})
+-- vim.keymap.set("n", "<localleader>cr", "<cmd>!cargo run<Cr>", { desc = "cargo run"})
+vim.keymap.set("n", "<F4>", "<cmd>w<Cr><cmd>!cargo run<Cr>", { desc = "cargo run"})
+vim.keymap.set("i", "<F4>", "<Esc><cmd>w<Cr><cmd>!cargo run<Cr>", { desc = "cargo run"})
 
 vim.keymap.set(
   "n",
