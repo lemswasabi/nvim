@@ -100,4 +100,21 @@ return {
       vim.keymap.set("v", "<leader>c", require("osc52").copy_visual)
     end
   },
+
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = true,
+    opts = {
+      enable_check_bracket_line = true,
+    },
+    config = function()
+      local npairs = require("nvim-autopairs")
+      npairs.setup({
+        enable_check_bracket_line = false,
+      })
+    end,
+  },
+
+
 }
