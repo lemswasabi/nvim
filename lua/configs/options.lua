@@ -16,3 +16,12 @@ end
 -- disable netrw at the very start of your init.lua
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
+-- auto resize when terminal window resizes
+vim.api.nvim_create_autocmd("VimResized", {
+  pattern = "*",
+  callback = function()
+    vim.cmd("tabdo wincmd =")
+  end,
+  desc = "Auto equalize splits in all tabs on resize",
+})
