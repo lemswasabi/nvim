@@ -174,4 +174,223 @@ return {
     },
   },
 
+  {
+    "wojciech-kulik/xcodebuild.nvim",
+    ft = "swift",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "MunifTanjim/nui.nvim",
+      "folke/snacks.nvim",
+      "nvim-tree/nvim-tree.lua",
+      "stevearc/oil.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "j-hui/fidget.nvim", -- needed for the integration
+    },
+    config = function()
+      local progress_handle
+
+      require("xcodebuild").setup({
+        show_build_progress_bar = false, -- hide default bar
+
+        logs = {
+          notify = function(message, severity)
+            local fidget = require("fidget")
+
+            if progress_handle then
+              progress_handle.message = message
+
+              if not message:find("Loading") then
+                progress_handle:finish()
+                progress_handle = nil
+              end
+
+              if vim.trim(message) ~= "" then
+                fidget.notify(message, severity)
+              end
+            else
+              fidget.notify(message, severity)
+            end
+          end,
+
+          notify_progress = function(message)
+            local progress = require("fidget.progress")
+
+            if progress_handle then
+              progress_handle.title = ""
+              progress_handle.message = message
+            else
+              progress_handle = progress.handle.create({
+                message = message,
+                lsp_client = { name = "xcodebuild.nvim" },
+              })
+            end
+          end,
+        },
+      })
+    end,
+  },
+
+  {
+    "stevearc/conform.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      local conform = require("conform")
+      conform.setup({
+        formatters_by_ft = {
+          swift = { "swiftformat" },
+        },
+        format_on_save = function(bufnr)
+          local ignore_filetypes = { "oil" }
+          if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
+            return
+          end
+          return { timeout_ms = 500, lsp_fallback = true }
+        end,
+        log_level = vim.log.levels.ERROR,
+      })
+    end,
+  },
+
+  {
+    "mfussenegger/nvim-lint",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      local lint = require("lint")
+      lint.linters_by_ft = {
+        swift = { "swiftlint" },
+      }
+
+      local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave", "TextChanged" }, {
+        group = lint_augroup,
+        callback = function()
+          if not vim.endswith(vim.fn.bufname(), "swiftinterface") then
+            lint.try_lint()
+          end
+        end,
+      })
+
+      vim.keymap.set("n", "<leader>ml", function()
+        lint.try_lint()
+      end, { desc = "Lint current file" })
+    end,
+  },
+
+  {
+    "j-hui/fidget.nvim",
+    event = "VeryLazy",
+    config = function()
+      local fidget = require("fidget")
+      fidget.setup({
+        notification = {
+          window = {
+            normal_hl = "String", -- Base highlight group in the notification window
+            winblend = 0, -- Background color opacity in the notification window
+            border = "rounded", -- Border around the notification window
+            zindex = 45, -- Stacking priority of the notification window
+            max_width = 0, -- Maximum width of the notification window
+            max_height = 0, -- Maximum height of the notification window
+            x_padding = 1, -- Padding from right edge of window boundary
+            y_padding = 1, -- Padding from bottom edge of window boundary
+            align = "bottom", -- How to align the notification window
+            relative = "editor", -- What the notification window position is relative to
+          },
+        },
+      })
+    end,
+  },
+
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    event = { "BufReadPre", "BufNewFile" },
+    keys = {
+      { "<localleader>tt", "<cmd>Trouble quickfix toggle<cr>", { desc = "Open a quickfix" } },
+    },
+
+    opts = {},
+    config = function()
+      require("trouble").setup({
+        auto_open = false,
+        auto_close = false,
+        auto_preview = true,
+        auto_jump = false,
+        mode = "quickfix",
+        severity = vim.diagnostic.severity.ERROR,
+        cycle_results = false,
+      })
+    end,
+  },
+
+  {
+    "mfussenegger/nvim-dap",
+    dependencies = {
+      "wojciech-kulik/xcodebuild.nvim"
+    },
+    config = function()
+      local xcodebuild = require("xcodebuild.integrations.dap")
+      -- SAMPLE PATH, change it to your local codelldb path
+      local codelldbPath = os.getenv("HOME") .. "/bin/codelldb-darwin-arm64/extension/adapter/codelldb"
+
+      xcodebuild.setup(codelldbPath)
+
+      vim.keymap.set("n", "<leader>dd", xcodebuild.build_and_debug, { desc = "Build & Debug" })
+      vim.keymap.set("n", "<leader>dr", xcodebuild.debug_without_build, { desc = "Debug Without Building" })
+      vim.keymap.set("n", "<leader>dt", xcodebuild.debug_tests, { desc = "Debug Tests" })
+      vim.keymap.set("n", "<leader>dT", xcodebuild.debug_class_tests, { desc = "Debug Class Tests" })
+      vim.keymap.set("n", "<leader>b", xcodebuild.toggle_breakpoint, { desc = "Toggle Breakpoint" })
+      vim.keymap.set("n", "<leader>B", xcodebuild.toggle_message_breakpoint, { desc = "Toggle Message Breakpoint" })
+      vim.keymap.set("n", "<leader>dx", xcodebuild.terminate_session, { desc = "Terminate Debugger" })
+    end,
+  },
+
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio"
+    },
+    config = function()
+      local dap, dapui = require("dap"), require("dapui")
+
+      dapui.setup({
+        layouts = {
+          {
+            elements = {
+              { id = "scopes", size = 0.25 },
+              { id = "breakpoints", size = 0.25 },
+              { id = "stacks", size = 0.25 },
+              { id = "watches", size = 0.25 },
+            },
+            size = 40,
+            position = "left",
+          },
+          {
+            elements = {
+              { id = "repl", size = 0.5 },
+              { id = "console", size = 0.5 }, -- 🔥 required by xcodebuild.nvim
+            },
+            size = 10,
+            position = "bottom",
+          },
+        },
+      })
+
+      -- Auto open/close dap-ui using official pattern
+      dap.listeners.before.attach.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.launch.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated.dapui_config = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited.dapui_config = function()
+        dapui.close()
+      end
+    end,
+  }
+
 }
