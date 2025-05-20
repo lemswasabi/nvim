@@ -116,20 +116,20 @@ return {
     opts = {
       -- add any opts here
       -- for example
-      -- provider = "openai",
-      -- openai = {
-      --   endpoint = "https://api.openai.com/v1",
-      --   model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-      --   timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-      --   temperature = 0,
-      --   max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-      --   --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
-      -- },
-      provider = "ollama",
-      ollama = {
-        endpoint = "http://sair:11434", -- Note that there is no /v1 at the end.
-        model = "qwq:latest",
+      provider = "openai",
+      openai = {
+        endpoint = "https://api.openai.com/v1",
+        model = "gpt-4.1", -- your desired model (or use gpt-4o, etc.)
+        timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+        temperature = 0,
+        max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
+        --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
       },
+      -- provider = "ollama",
+      -- ollama = {
+      --   endpoint = "http://sair:11434", -- Note that there is no /v1 at the end.
+      --   model = "qwq:latest",
+      -- },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = "make",
@@ -325,6 +325,7 @@ return {
 
   {
     "mfussenegger/nvim-dap",
+    ft = { "python", "rust", "swift" },
     dependencies = {
       "wojciech-kulik/xcodebuild.nvim"
     },
@@ -347,6 +348,7 @@ return {
 
   {
     "rcarriga/nvim-dap-ui",
+    ft = { "python", "rust", "swift" },
     dependencies = {
       "mfussenegger/nvim-dap",
       "nvim-neotest/nvim-nio"
