@@ -2,11 +2,11 @@ return {
   {
     "kdheepak/lazygit.nvim",
     dependencies = {
-      "nvim-lua/plenary.nvim"
+      "nvim-lua/plenary.nvim",
     },
     keys = {
-      { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit"}
-    }
+      { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
+    },
   },
 
   {
@@ -15,27 +15,27 @@ return {
       require("nvim-tree").setup()
     end,
     keys = {
-      { "<leader>tt", "<cmd>NvimTreeToggle<cr>", desc = "Open/Close tree"},
-      { "<leader>tf", "<cmd>NvimTreeFocus<cr>", desc = "Open and focus on tree"}
-    }
+      { "<leader>tt", "<cmd>NvimTreeToggle<cr>", desc = "Open/Close tree" },
+      { "<leader>tf", "<cmd>NvimTreeFocus<cr>", desc = "Open and focus on tree" },
+    },
   },
 
   {
     "folke/zen-mode.nvim",
     enabled = false,
-    opts = {}
+    opts = {},
   },
 
   -- pomodoro timer
   {
     "epwalsh/pomo.nvim",
-    version = "*",  -- Recommended, use latest release instead of latest commit
+    version = "*", -- Recommended, use latest release instead of latest commit
     lazy = true,
     cmd = { "TimerStart", "TimerRepeat" },
     dependencies = {
       "rcarriga/nvim-notify",
     },
-    opts = {}
+    opts = {},
   },
 
   -- {
@@ -87,26 +87,26 @@ return {
     cmd = { "Gitignore" },
     dependencies = {
       "nvim-telescope/telescope.nvim",
-    }
+    },
   },
 
   {
-    'akinsho/toggleterm.nvim',
+    "akinsho/toggleterm.nvim",
     version = "*",
     event = "BufEnter",
     config = function()
       require("toggleterm").setup({
-      size = function(term)
-        if term.direction == "horizontal" then
-          return 15
-        elseif term.direction == "vertical" then
-          return vim.o.columns * 0.4
-        end
-      end,
-      open_mapping = [[<c-\>]], -- or { [[<c-\>]], [[<c-¥>]] } if you also use a Japanese keyboard.
-      terminal_mappings = false,
+        size = function(term)
+          if term.direction == "horizontal" then
+            return 15
+          elseif term.direction == "vertical" then
+            return vim.o.columns * 0.4
+          end
+        end,
+        open_mapping = [[<c-\>]], -- or { [[<c-\>]], [[<c-¥>]] } if you also use a Japanese keyboard.
+        terminal_mappings = false,
       })
-    end
+    end,
   },
 
   -- {
@@ -269,7 +269,12 @@ return {
       local conform = require("conform")
       conform.setup({
         formatters_by_ft = {
+          lua = { "stylua" },
           swift = { "swiftformat" },
+          html = { "prettierd" },
+          javascript = { "prettierd" },
+          typescript = { "prettierd" },
+          typescriptreact = { "prettierd" },
         },
         format_on_save = function(bufnr)
           local ignore_filetypes = { "oil" }
@@ -359,7 +364,7 @@ return {
     "mfussenegger/nvim-dap",
     ft = { "python", "rust", "swift" },
     dependencies = {
-      "wojciech-kulik/xcodebuild.nvim"
+      "wojciech-kulik/xcodebuild.nvim",
     },
     config = function()
       local xcodebuild = require("xcodebuild.integrations.dap")
@@ -383,7 +388,7 @@ return {
     ft = { "python", "rust", "swift" },
     dependencies = {
       "mfussenegger/nvim-dap",
-      "nvim-neotest/nvim-nio"
+      "nvim-neotest/nvim-nio",
     },
     config = function()
       local dap, dapui = require("dap"), require("dapui")
@@ -425,6 +430,5 @@ return {
         dapui.close()
       end
     end,
-  }
-
+  },
 }
