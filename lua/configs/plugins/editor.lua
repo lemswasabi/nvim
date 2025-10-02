@@ -95,10 +95,10 @@ return {
       local osc52 = require("osc52")
       osc52.setup({})
 
-      vim.keymap.set("n", "<leader>c", require("osc52").copy_operator, {expr = true})
-      vim.keymap.set("n", "<leader>cc", "<leader>c_", {remap = true})
+      vim.keymap.set("n", "<leader>c", require("osc52").copy_operator, { expr = true })
+      vim.keymap.set("n", "<leader>cc", "<leader>c_", { remap = true })
       vim.keymap.set("v", "<leader>c", require("osc52").copy_visual)
-    end
+    end,
   },
 
   {
@@ -116,5 +116,38 @@ return {
     end,
   },
 
+  {
+    "ggandor/leap.nvim",
+    enabled = true,
+    config = function()
+      require("leap").set_default_mappings()
+      -- vim.schedule(function()
+      --   vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Conceal" })
+      -- end)
 
+      require("leap").opts.equivalence_classes = {
+        " \t\r\n",
+        "([{",
+        ")]}",
+        [['"`]],
+      }
+
+      -- remote actions
+      vim.keymap.set({ "n", "x", "o" }, "gs", function()
+        require("leap.remote").action()
+      end)
+
+      -- automatic paste after remote yanking
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "RemoteOperationDone",
+        group = vim.api.nvim_create_augroup("LeapRemote", {}),
+        callback = function(event)
+          -- Do not paste if some special register was in use.
+          if vim.v.operator == "y" and event.data.register == '"' then
+            vim.cmd("normal! p")
+          end
+        end,
+      })
+    end,
+  },
 }

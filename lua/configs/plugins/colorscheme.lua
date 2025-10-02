@@ -5,12 +5,17 @@ return {
     name = "catppuccin",
     priority = 1000,
     config = function()
-      vim.cmd([[colorscheme catppuccin-mocha]])
       require("catppuccin").setup({
+        transparent_background = true, -- disables setting the background color.
+        float = {
+          transparent = true, -- enable transparent floating windows
+          solid = true, -- use solid styling for floating windows, see |winborder|
+        },
         integrations = {
-          mason = true
-        }
+          mason = true,
+          telescope = true,
+        },
       })
     end,
-  }
+  },
 }

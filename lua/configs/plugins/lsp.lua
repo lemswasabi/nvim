@@ -13,8 +13,8 @@ return {
 
   {
     "neovim/nvim-lspconfig",
-    cmd = {"Lspinfo", "Lspinstall", "Lspstart", "Mason"},
-    event = {"BufReadPre", "BufNewFile"},
+    cmd = { "Lspinfo", "Lspinstall", "Lspstart", "Mason" },
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "williamboman/mason.nvim",
@@ -22,7 +22,6 @@ return {
       "L3MON4D3/LuaSnip",
     },
     config = function()
-
       require("mason").setup()
 
       -- This is where all the LSP shenanigans will live
@@ -34,7 +33,8 @@ return {
       lsp_zero.on_attach(function(client, bufnr)
         -- see :help lsp-zero-keybindings
         -- to learn the available actions
-        lsp_zero.default_keymaps({buffer = bufnr})
+        lsp_zero.default_keymaps({ buffer = bufnr })
+        
       end)
 
       require("mason-lspconfig").setup({
@@ -79,30 +79,27 @@ return {
                     vim.lsp.buf.format({ async = false })
                   end,
                 })
-              end
+              end,
             })
           end,
-
-        }
+        },
       })
 
-      -- TODO: speed up load time
-      local lspconfig = require("lspconfig")
-      local cmp_nvim_lsp = require("cmp_nvim_lsp")
-      local capabilities = cmp_nvim_lsp.default_capabilities()
-
-      local defaultLSPs = {
-        "sourcekit",
-      }
-
-      for _, lsp in ipairs(defaultLSPs) do
-        lspconfig[lsp].setup({
-          capabilities = capabilities,
-          on_attach = on_attach,
-          cmd = lsp == "sourcekit" and { vim.trim(vim.fn.system("xcrun -f sourcekit-lsp")) } or nil,
-        })
-       end
-
-      end
-  }
+      -- -- TODO: speed up load time
+      -- local lspconfig = require("lspconfig")
+      -- local cmp_nvim_lsp = require("cmp_nvim_lsp")
+      -- local capabilities = cmp_nvim_lsp.default_capabilities()
+      --
+      -- local defaultLSPs = {
+      --   "sourcekit",
+      -- }
+      --
+      -- for _, lsp in ipairs(defaultLSPs) do
+      --   lspconfig[lsp].setup({
+      --     capabilities = capabilities,
+      --     cmd = lsp == "sourcekit" and { vim.trim(vim.fn.system("xcrun -f sourcekit-lsp")) } or nil,
+      --   })
+      -- end
+    end,
+  },
 }

@@ -264,7 +264,8 @@ return {
 
   {
     "stevearc/conform.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo", "FormatDisable", "FormatEnable" },
     config = function()
       local conform = require("conform")
       conform.setup({
@@ -273,17 +274,48 @@ return {
           swift = { "swiftformat" },
           html = { "prettierd" },
           javascript = { "prettierd" },
+          javascriptreact = { "prettierd" },
           typescript = { "prettierd" },
           typescriptreact = { "prettierd" },
+          nix = { "alejandra" },
+          json = { "jq" },
+          python = { "isort", "ruff_format" },
         },
-        format_on_save = function(bufnr)
-          local ignore_filetypes = { "oil" }
-          if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
-            return
-          end
-          return { timeout_ms = 500, lsp_fallback = true }
-        end,
-        log_level = vim.log.levels.ERROR,
+        format_on_save = {
+          -- These options will be passed to conform.format()
+          timeout_ms = 500,
+          lsp_format = "fallback",
+        },
+        -- format_on_save = function(bufnr)
+        --   -- Disable autoformat if requested
+        --   if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+        --     return
+        --   end
+        --   local ignore_filetypes = { "oil" }
+        --   if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
+        --     return
+        --   end
+        --   return { timeout_ms = 500, lsp_fallback = true }
+        -- end,
+        -- log_level = vim.log.levels.ERROR,
+      })
+
+      vim.api.nvim_create_user_command("FormatDisable", function(args)
+        if args.bang then
+          -- FormatDisable! will disable formatting just for this buffer
+          vim.b.disable_autoformat = true
+        else
+          vim.g.disable_autoformat = true
+        end
+      end, {
+        desc = "Disable autoformat-on-save",
+        bang = true,
+      })
+      vim.api.nvim_create_user_command("FormatEnable", function()
+        vim.b.disable_autoformat = false
+        vim.g.disable_autoformat = false
+      end, {
+        desc = "Re-enable autoformat-on-save",
       })
     end,
   },
@@ -429,6 +461,26 @@ return {
       dap.listeners.before.event_exited.dapui_config = function()
         dapui.close()
       end
+    end,
+  },
+
+  {
+    "lewis6991/gitsigns.nvim",
+    enabled = true,
+    config = function()
+      require("gitsigns").setup({
+        on_attach = function(bufnr)
+          local gitsigns = require("gitsigns")
+          local function map(mode, l, r, opts)
+            opts = opts or {}
+            opts.buffer = bufnr
+            vim.keymap.set(mode, l, r, opts)
+          end
+          map("n", "<leader>ghb", function()
+            gitsigns.blame_line({ full = true })
+          end, { desc = "Gitsigns: Blame line" })
+        end,
+      })
     end,
   },
 }
