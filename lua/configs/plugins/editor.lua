@@ -61,14 +61,6 @@ return {
   },
 
   {
-    "echasnovski/mini.comment",
-    event = "BufEnter",
-    config = function()
-      require("mini.comment").setup()
-    end,
-  },
-
-  {
     "echasnovski/mini.pairs",
     event = "InsertEnter",
     config = function()
