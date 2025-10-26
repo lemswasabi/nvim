@@ -31,7 +31,7 @@ return {
   },
 
   {
-    "echasnovski/mini.indentscope",
+    "nvim-mini/mini.indentscope",
     version = false, -- wait till new 0.7.0 release to put it back on semver
     event = "BufEnter",
     opts = {
@@ -61,7 +61,7 @@ return {
   },
 
   {
-    "echasnovski/mini.pairs",
+    "nvim-mini/mini.pairs",
     event = "InsertEnter",
     config = function()
       require("mini.pairs").setup()
@@ -69,7 +69,7 @@ return {
   },
 
   {
-    "echasnovski/mini.splitjoin",
+    "nvim-mini/mini.splitjoin",
     event = "InsertEnter",
     config = function()
       require("mini.splitjoin").setup()
