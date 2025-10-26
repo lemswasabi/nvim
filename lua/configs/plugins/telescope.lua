@@ -32,9 +32,9 @@ return {
       vim.keymap.set("n", "<leader>fr", builtin.lsp_references, {})
       vim.keymap.set("n", "<leader>fs", builtin.lsp_workspace_symbols, {})
 
-      -- vim.keymap.set("n", "<leader>fc", function()
-      --   builtin.colorscheme({ enable_preview = true })
-      -- end, {})
+      vim.keymap.set("n", "<leader>fc", function()
+        builtin.colorscheme({ enable_preview = true })
+      end, {})
     end,
   },
 }
