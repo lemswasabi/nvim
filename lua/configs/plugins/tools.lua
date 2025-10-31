@@ -278,7 +278,6 @@ return {
           typescript = { "prettierd" },
           typescriptreact = { "prettierd" },
           nix = { "alejandra" },
-          json = { "jq" },
           python = { "isort", "ruff_format" },
         },
         format_on_save = {
