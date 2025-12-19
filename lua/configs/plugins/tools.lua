@@ -482,4 +482,19 @@ return {
       })
     end,
   },
+
+  {
+    "jbyuki/instant.nvim",
+    enabled = true,
+    cmd = {
+      'InstantStartServer',
+      'InstantStartSingle',
+      'InstantJoinSingle',
+      'InstantStartSession',
+      'InstantJoinSession',
+    },
+    config = function()
+      vim.g.instant_username = "lemswasabi"
+    end,
+  },
 }
