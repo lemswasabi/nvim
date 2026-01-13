@@ -112,17 +112,15 @@ return {
     "ggandor/leap.nvim",
     enabled = true,
     config = function()
-      require("leap").set_default_mappings()
-      -- vim.schedule(function()
-      --   vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Conceal" })
-      -- end)
-
       require("leap").opts.equivalence_classes = {
         " \t\r\n",
         "([{",
         ")]}",
         [['"`]],
       }
+
+      vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
+      vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
 
       -- remote actions
       vim.keymap.set({ "n", "x", "o" }, "gs", function()
