@@ -400,10 +400,8 @@ return {
     },
     config = function()
       local xcodebuild = require("xcodebuild.integrations.dap")
-      -- SAMPLE PATH, change it to your local codelldb path
-      local codelldbPath = os.getenv("HOME") .. "/bin/codelldb-darwin-arm64/extension/adapter/codelldb"
 
-      xcodebuild.setup(codelldbPath)
+      xcodebuild.setup()
 
       vim.keymap.set("n", "<leader>dd", xcodebuild.build_and_debug, { desc = "Build & Debug" })
       vim.keymap.set("n", "<leader>dr", xcodebuild.debug_without_build, { desc = "Debug Without Building" })
