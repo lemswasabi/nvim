@@ -280,6 +280,8 @@ return {
           nix = { "alejandra" },
           python = { "isort", "ruff_format" },
           go = { "golines", "goimports", "gofmt" },
+          json = { "prettierd" },
+          jsonc = { "prettierd" },
         },
         format_on_save = {
           -- These options will be passed to conform.format()
