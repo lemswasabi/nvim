@@ -109,7 +109,7 @@ return {
   },
 
   {
-    "ggandor/leap.nvim",
+    url = "https://codeberg.org/andyg/leap.nvim",
     enabled = true,
     config = function()
       require("leap").opts.equivalence_classes = {
