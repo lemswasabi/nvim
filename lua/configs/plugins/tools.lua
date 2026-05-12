@@ -366,6 +366,7 @@ return {
             y_padding = 1, -- Padding from bottom edge of window boundary
             align = "bottom", -- How to align the notification window
             relative = "editor", -- What the notification window position is relative to
+            avoid = { "TestExplorer", "NvimTree" },
           },
         },
       })
