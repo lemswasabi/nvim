@@ -15,8 +15,6 @@ return {
         "rust",
         "vim",
         "vimdoc",
-        "rust",
-        "swift",
       },
       auto_install = false,
       sync_install = false,
