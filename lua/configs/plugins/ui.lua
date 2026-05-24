@@ -6,7 +6,7 @@ return {
     opts = function()
       require('lualine').setup({
         options = {
-          theme = "catppuccin"
+          theme = "catppuccin-mocha"
         },
         sections = {
           lualine_x = {
